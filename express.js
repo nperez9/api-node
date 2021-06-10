@@ -1,6 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const mysql = require('mysql2');
+
 const app = express();
+const mysqlConfig = require('./config/config');
 
 let gente = [
   'Berni',
@@ -9,7 +11,18 @@ let gente = [
   'Vane',
 ];
 
-app.use(bodyParser.json());
+
+const connection = mysql.createConnection(mysqlConfig);
+
+connection.connect((error) => {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  console.log('Conectado a la base de datos')
+});
+
+app.use(express.json());
 
 app.get('/', function (req, res) {
   const filtroNombre = req.query.nombre;
@@ -25,6 +38,17 @@ app.get('/', function (req, res) {
   }
 
   res.json(genteFiltrada);
+});
+
+app.get('/artist', (req, res) => {
+  connection.query('SELECT * FROM artist', (error, resultado) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    res.json(resultado);
+  });
 });
 
 app.post('/', function (req, res) {

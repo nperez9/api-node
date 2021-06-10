@@ -1,12 +1,10 @@
 const mysql = require('mysql2');
 const http = require('http');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'asd123',
-  database: 'sputify',
-});
+const mysqlConfig = require('./config/config');
+console.log(mysqlConfig);
+
+const connection = mysql.createConnection(mysqlConfig);
 
 connection.connect((error) => {
   if (error) {
