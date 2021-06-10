@@ -2,7 +2,7 @@ const mysqlConfig = {
   host: 'localhost',
   user: 'root',
   password: 'asd123',
-  database: 'sputify',
+  database: 'personas',
 };
 
 module.exports = mysqlConfig;
